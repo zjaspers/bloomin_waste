@@ -98,13 +98,15 @@
             margin-bottom: 10px;
             font-size: 13px;
         }
-        .data-input form button {
+        .data-input form button,
+        #doneButton {
             padding: 6px 12px;
             background-color: #8B2332;
             color: white;
             border: none;
             cursor: pointer;
             border-radius: 4px;
+            margin-right: 5px;
         }
         .data-table table {
             width: 100%;
@@ -230,6 +232,10 @@
            </label>
            <button type="submit">Submit Data</button>
        </form>
+       <!-- DONE Button with the provided link -->
+       <button type="button" id="doneButton" onclick="window.location.href='https://api.workjamdemo.com/api/v5/companies/1624289261671/pool/tasks?companyId=1624289261671&progressStatus=NOT_STARTED&progressStatus=IN_PROGRESS&progressStatus=READY_TO_COMPLETE&progressStatus=IN_REVIEW&progressStatus=REDO&size=20&sort=endDate'">
+         DONE
+       </button>
     </div>
     
     <!-- Data Table Section -->
@@ -323,19 +329,4 @@
             document.getElementById("totalWastePercentage").innerText = avgWastePercentage + "%";
             document.getElementById("totalWasteValue").innerText = "$" + totalWasteCost.toFixed(2);
             
-            // Determine the maximum waste cost among all categories to scale the chart
-            const maxCategoryCost = Math.max(...Object.values(categoryTotals));
-            
-            // Update each bar's width based on the relative waste cost in each category
-            for (let cat in categoryTotals) {
-                const barElement = document.getElementById("bar-" + cat);
-                if (barElement) {
-                    // Calculate width percentage (if max is zero then default to 0)
-                    const widthPercent = maxCategoryCost ? (categoryTotals[cat] / maxCategoryCost) * 100 : 0;
-                    barElement.style.width = widthPercent.toFixed(0) + "%";
-                }
-            }
-        }
-    </script>
-</body>
-</html>
+            // Determine the maximum waste cost among all categories
