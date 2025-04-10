@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Food Waste Tracker App</title>
+    <style>
+        /* Widget Container */
+        .waste-widget {
+            width: 300px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+        /* Widget Header */
+        .widget-header {
+            background-color: #8B2332; /* Outback Steakhouse burgundy */
+            color: white;
+            padding: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        /* Key Metrics Section */
+        .key-metrics {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #eee;
+        }
+        .metric {
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #8B2332; /* Outback Steakhouse burgundy */
+        }
+        .metric-label {
+            font-size: 12px;
+            color: #666;
+        }
+        /* Chart Section */
+        .chart-container {
+            padding: 10px;
+            height: 190px;
+            overflow-y: auto;
+        }
+        .chart-title {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .bar-chart {
+            width: 100%;
+        }
+        .bar-item {
+            margin-bottom: 6px;
+        }
+        .bar-label {
+            font-size: 10px;
+            color: #333;
+            margin-bottom: 2px;
+        }
+        .bar-container {
+            height: 12px;
+            width: 100%;
+            background-color: #eee;
+        }
+        .bar {
+            height: 100%;
+            background-color: #8B2332; /* Outback Steakhouse burgundy */
+        }
+        /* Form and Data Table Styling */
+        .data-input, .data-table {
+            font-family: Arial, sans-serif;
+            width: 300px;
+            margin-bottom: 20px;
+        }
+        .data-input h3, .data-table h3 {
+            font-size: 16px;
+            color: #333;
+        }
+        .data-input form label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        .data-input form input, .data-input form select {
+            width: 100%;
+            padding: 4px;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+        .data-input form button {
+            padding: 6px 12px;
+            background-color: #8B2332;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid #ccc;
+            padding: 4px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Widget Section -->
+    <div class="waste-widget">
+        <!-- Widget Header -->
+        <div class="widget-header">
+            <span>Food AvT (Waste) - Restaurant</span>
+            <span>Outback</span>
+        </div>
+        <!-- Key Metrics -->
+        <div class="key-metrics">
+            <div class="metric">
+                <div id="totalWastePercentage" class="metric-value">6.7%</div>
+                <div class="metric-label">Total Waste %</div>
+            </div>
+            <div class="metric">
+                <div id="totalWasteValue" class="metric-value">$4,139</div>
+                <div class="metric-label">Total Waste</div>
+            </div>
+        </div>
+        <!-- Chart Section -->
+        <div class="chart-container">
+            <div class="chart-title">CIM Reported Waste $ by Category</div>
+            <div class="bar-chart">
+                <!-- Food-Other -->
+                <div class="bar-item">
+                    <div class="bar-label">FOOD-OTHER</div>
+                    <div class="bar-container">
+                        <div id="bar-FOOD-OTHER" class="bar" style="width: 85%;"></div>
+                    </div>
+                </div>
+                
+                <!-- Food-Protein -->
+                <div class="bar-item">
+                    <div class="bar-label">FOOD-PROTEIN</div>
+                    <div class="bar-container">
+                        <div id="bar-FOOD-PROTEIN" class="bar" style="width: 75%;"></div>
+                    </div>
+                </div>
+                
+                <!-- Food-Produce -->
+                <div class="bar-item">
+                    <div class="bar-label">FOOD-PRODUCE</div>
+                    <div class="bar-container">
+                        <div id="bar-FOOD-PRODUCE" class="bar" style="width: 65%;"></div>
+                    </div>
+                </div>
+                
+                <!-- Food-Beverages -->
+                <div class="bar-item">
+                    <div class="bar-label">FOOD-BEVERAGES</div>
+                    <div class="bar-container">
+                        <div id="bar-FOOD-BEVERAGES" class="bar" style="width: 45%;"></div>
+                    </div>
+                </div>
+                
+                <!-- Food-Seafood -->
+                <div class="bar-item">
+                    <div class="bar-label">FOOD-SEAFOOD</div>
+                    <div class="bar-container">
+                        <div id="bar-FOOD-SEAFOOD" class="bar" style="width: 30%;"></div>
+                    </div>
+                </div>
+                
+                <!-- Food-Dairy -->
+                <div class="bar-item">
+                    <div class="bar-label">FOOD-DAIRY</div>
+                    <div class="bar-container">
+                        <div id="bar-FOOD-DAIRY" class="bar" style="width: 15%;"></div>
+                    </div>
+                </div>
+                
+                <!-- Food-Fish -->
+                <div class="bar-item">
+                    <div class="bar-label">FOOD-FISH</div>
+                    <div class="bar-container">
+                        <div id="bar-FOOD-FISH" class="bar" style="width: 10%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Data Input Section -->
+    <div class="data-input">
+       <h3>Add Food Waste Data Point</h3>
+       <form id="dataForm">
+           <label>
+               Restaurant Name:
+               <input type="text" id="restaurantName" value="Outback" required />
+           </label>
+           <label>
+               Category:
+               <select id="category">
+                   <option value="FOOD-OTHER">FOOD-OTHER</option>
+                   <option value="FOOD-PROTEIN">FOOD-PROTEIN</option>
+                   <option value="FOOD-PRODUCE">FOOD-PRODUCE</option>
+                   <option value="FOOD-BEVERAGES">FOOD-BEVERAGES</option>
+                   <option value="FOOD-SEAFOOD">FOOD-SEAFOOD</option>
+                   <option value="FOOD-DAIRY">FOOD-DAIRY</option>
+                   <option value="FOOD-FISH">FOOD-FISH</option>
+               </select>
+           </label>
+           <label>
+               Waste Percentage (%):
+               <input type="number" id="wastePercentage" step="0.1" required />
+           </label>
+           <label>
+               Waste Cost ($):
+               <input type="number" id="wasteCost" step="0.1" required />
+           </label>
+           <button type="submit">Submit Data</button>
+       </form>
+    </div>
+    
+    <!-- Data Table Section -->
+    <div class="data-table">
+        <h3>Submitted Data Points</h3>
+        <table id="dataTable">
+           <thead>
+              <tr>
+                 <th>Restaurant</th>
+                 <th>Category</th>
+                 <th>Waste %</th>
+                 <th>Waste Cost ($)</th>
+              </tr>
+           </thead>
+           <tbody>
+              <!-- New data rows will be added here -->
+           </tbody>
+        </table>
+    </div>
+    
+    <script>
+        // Array to store data points
+        let dataPoints = [];
+        
+        // Handle form submission
+        document.getElementById("dataForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            // Get input values
+            const restaurant = document.getElementById("restaurantName").value;
+            const category = document.getElementById("category").value;
+            const wastePercentage = parseFloat(document.getElementById("wastePercentage").value);
+            const wasteCost = parseFloat(document.getElementById("wasteCost").value);
+            
+            // Create a new data point object
+            const newDataPoint = { restaurant, category, wastePercentage, wasteCost };
+            dataPoints.push(newDataPoint);
+            
+            // Update the table with the new data point
+            addDataPointToTable(newDataPoint);
+            
+            // Recalculate metrics and update chart
+            updateMetricsAndChart();
+            
+            // Reset form fields
+            document.getElementById("dataForm").reset();
+        });
+        
+        // Add a row to the submissions table
+        function addDataPointToTable(dataPoint) {
+            const tableBody = document.querySelector("#dataTable tbody");
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${dataPoint.restaurant}</td>
+                <td>${dataPoint.category}</td>
+                <td>${dataPoint.wastePercentage}%</td>
+                <td>$${dataPoint.wasteCost}</td>
+            `;
+            tableBody.appendChild(row);
+        }
+        
+        // Recalculate key metrics and update the chart bars
+        function updateMetricsAndChart() {
+            let totalWasteCost = 0;
+            let totalWastePercentage = 0;
+            let count = dataPoints.length;
+            
+            // Create an object to aggregate waste cost by category
+            const categoryTotals = {
+                "FOOD-OTHER": 0,
+                "FOOD-PROTEIN": 0,
+                "FOOD-PRODUCE": 0,
+                "FOOD-BEVERAGES": 0,
+                "FOOD-SEAFOOD": 0,
+                "FOOD-DAIRY": 0,
+                "FOOD-FISH": 0
+            };
+            
+            dataPoints.forEach(point => {
+                totalWasteCost += point.wasteCost;
+                totalWastePercentage += point.wastePercentage;
+                if (categoryTotals.hasOwnProperty(point.category)) {
+                    categoryTotals[point.category] += point.wasteCost;
+                }
+            });
+            
+            // Calculate average waste percentage (if any data exists)
+            const avgWastePercentage = count ? (totalWastePercentage / count).toFixed(1) : 0;
+            
+            // Update Key Metrics
+            document.getElementById("totalWastePercentage").innerText = avgWastePercentage + "%";
+            document.getElementById("totalWasteValue").innerText = "$" + totalWasteCost.toFixed(2);
+            
+            // Determine the maximum waste cost among all categories to scale the chart
+            const maxCategoryCost = Math.max(...Object.values(categoryTotals));
+            
+            // Update each bar's width based on the relative waste cost in each category
+            for (let cat in categoryTotals) {
+                const barElement = document.getElementById("bar-" + cat);
+                if (barElement) {
+                    // Calculate width percentage (if max is zero then default to 0)
+                    const widthPercent = maxCategoryCost ? (categoryTotals[cat] / maxCategoryCost) * 100 : 0;
+                    barElement.style.width = widthPercent.toFixed(0) + "%";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
